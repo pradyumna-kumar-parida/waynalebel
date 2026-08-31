@@ -1,0 +1,2917 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Accounting for Non-Accountants — 2nd Edition | Dr. Wayne Label
+    </title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ==========================================================================
+       DESIGN TOKENS — extracted from waynelabel.com
+       Navy: headers/footer + headline text
+       Teal/Mint: primary brand accent (buttons, blobs, underlines)
+       Orange: secondary CTA accent
+       Blue: newsletter band
+       Jost: headings + body copy
+       ========================================================================== */
+      :root {
+        --navy: #0e2a3f;
+        --navy-soft: #1b3f57;
+        --teal: #3fac8c;
+        --teal-dark: #2f8b70;
+        --mint: #8ff0c8;
+        --mint-pale: #e4faf0;
+        --orange: #f4793b;
+        --orange-dark: #e0632a;
+        --blue-band: #1c7fb8;
+        --cream: #ffffff;
+        --ink: #122a3a;
+        --gray: #5c6b74;
+        --line: #e6ece9;
+        --radius-lg: 26px;
+        --radius-md: 16px;
+        --radius-sm: 10px;
+        --shadow-soft: 0 20px 45px -20px rgba(14, 42, 63, 0.25);
+        --shadow-card: 0 12px 30px -12px rgba(14, 42, 63, 0.18);
+      }
+
+      /* ==========================================================================
+       RESET / BASE
+       ========================================================================== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Jost", sans-serif;
+        color: var(--ink);
+        background: var(--cream);
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: var(--navy);
+        line-height: 1.15;
+        font-weight: 700;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      ul {
+        list-style: none;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      button {
+        cursor: pointer;
+        border: none;
+      }
+      .container {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+      @media (max-width: 640px) {
+        .container {
+          padding: 0 20px;
+        }
+      }
+
+      /* ==========================================================================
+       SHARED UI: eyebrow label, buttons, section scaffolding, blobs, reveal
+       ========================================================================== */
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        line-height: 1;
+        text-transform: uppercase;
+        color: #1478ad;
+        background: #eef9ff;
+        padding: 9px 15px;
+        border: 1px solid #a8d9f2;
+        border-radius: 999px;
+        box-shadow: 0 3px 10px rgba(28, 127, 184, 0.08);
+        margin-bottom: 20px;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        flex: 0 0 6px;
+        border-radius: 50%;
+        background: #1c7fb8;
+        box-shadow: 0 0 0 3px rgba(28, 127, 184, 0.12);
+        animation: eyebrowPulse 2s ease-in-out infinite;
+      }
+      @keyframes eyebrowPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 3px rgba(28, 127, 184, 0.12);
+        }
+        50% {
+          box-shadow: 0 0 0 5px rgba(28, 127, 184, 0.05);
+        }
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-weight: 600;
+        font-size: 15.5px;
+        padding: 16px 30px;
+        border-radius: 10px;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          background 0.25s ease;
+        white-space: nowrap;
+      }
+      .btn-order {
+        background: var(--teal);
+        color: #fff;
+      }
+      .btn-primary {
+        background: var(--orange);
+        color: #fff;
+        box-shadow: 0 14px 28px -10px rgba(244, 121, 59, 0.55);
+      }
+      .btn-primary > i {
+        font-size: 22px;
+      }
+      .btn-primary:hover {
+        background: var(--orange-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 18px 34px -10px rgba(244, 121, 59, 0.6);
+      }
+      .btn-ghost {
+        background-color: var(--navy);
+        color: var(--cream);
+      }
+      .btn-ghost:hover {
+        transform: translateY(-3px);
+      }
+      .btn-teal {
+        background: var(--teal);
+        color: #fff;
+        box-shadow: 0 14px 28px -10px rgba(63, 172, 140, 0.5);
+      }
+      .btn-teal:hover {
+        background: var(--teal-dark);
+        transform: translateY(-3px);
+      }
+
+      /* organic blob shapes — signature language carried over from the
+       existing site's hero/section backgrounds */
+      .blob {
+        position: absolute;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      section {
+        position: relative;
+        padding: 66px 0;
+      }
+      .section-alt {
+        background: #fff;
+      }
+      .section-head {
+        max-width: 640px;
+        margin-bottom: 56px;
+      }
+      .section-head h2 {
+        font-size: clamp(1.9rem, 3vw, 2.5rem);
+        margin-bottom: 16px;
+      }
+      .section-head p {
+        color: var(--gray);
+        font-size: 16.5px;
+      }
+      .underline-swash {
+        display: inline-block;
+        width: 64px;
+        height: 6px;
+        background: var(--teal);
+        border-radius: 99px;
+        margin-top: 14px;
+      }
+
+      /* scroll-reveal entrance animation */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* decorative halftone dot circle (used behind the hero blob) */
+      .halftone-circle {
+        position: absolute;
+        width: 320px;
+        height: 320px;
+      }
+      .halftone-circle svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        transform-origin: center;
+      }
+      .yellow-circle {
+        top: 140px;
+        left: 80px;
+      }
+
+      /* ==========================================================================
+       HEADER
+       ========================================================================== */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 0;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        color: var(--navy);
+        font-size: 15px;
+      }
+      .brand > img {
+        width: 70%;
+      }
+      nav ul {
+        display: flex;
+        gap: 34px;
+      }
+      nav a {
+        font-size: 15.5px;
+        font-weight: 600;
+        color: var(--navy-soft);
+        transition: color 0.2s ease;
+      }
+      nav a:hover {
+        color: var(--teal-dark);
+      }
+      .header-cta {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .header-cta .btn {
+        padding: 12px 24px;
+        font-size: 14.5px;
+      }
+      .menu-toggle {
+        display: none;
+        background: none;
+        font-size: 26px;
+        color: var(--navy);
+      }
+
+      /* --- "Order Now" header button: premium gold shimmer + breathing scale --- */
+      .header-cta .btn-order {
+        position: relative;
+        isolation: isolate;
+        overflow: visible;
+        background: var(--teal);
+        color: #fff;
+        border: 1px solid rgba(255, 220, 140, 0.8);
+        box-shadow:
+          0 8px 25px rgba(82, 5, 5, 0.28),
+          inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        background-size: 200% 200%;
+        animation: premiumOrder 1.8s ease-in-out infinite;
+      }
+      .header-cta .btn-order span {
+        position: relative;
+        z-index: 2;
+      }
+      .header-cta .btn-order::before {
+        /* gold shimmer sweep */
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(
+          110deg,
+          transparent 20%,
+          rgba(51, 44, 18, 0.08) 35%,
+          rgba(255, 111, 15, 0.55) 50%,
+          rgba(255, 236, 170, 0.08) 65%,
+          transparent 80%
+        );
+        background-size: 250% 100%;
+        animation: goldShimmer 1.8s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .header-cta .btn-order::after {
+        /* outer premium glow ring */
+        content: "";
+        position: absolute;
+        inset: -4px;
+        border-radius: inherit;
+        border: 1px solid rgba(15, 104, 55, 0.329);
+        opacity: 0;
+        animation: premiumRing 1.8s ease-out infinite;
+        pointer-events: none;
+        z-index: -1;
+      }
+      @keyframes premiumOrder {
+        0%,
+        55%,
+        100% {
+          transform: translateY(0) scale(1);
+          box-shadow:
+            0 8px 25px rgba(82, 5, 5, 0.28),
+            inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        }
+        60% {
+          transform: translateY(-2px) scale(1.035);
+          box-shadow:
+            0 14px 35px rgba(82, 5, 5, 0.38),
+            0 0 25px rgba(245, 196, 91, 0.28),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        67% {
+          transform: translateY(0) scale(1);
+        }
+      }
+      @keyframes goldShimmer {
+        0%,
+        45% {
+          background-position: 150% 0;
+          opacity: 0;
+        }
+        52% {
+          opacity: 1;
+        }
+        65% {
+          background-position: -50% 0;
+          opacity: 1;
+        }
+        70%,
+        100% {
+          background-position: -50% 0;
+          opacity: 0;
+        }
+      }
+      @keyframes premiumRing {
+        0%,
+        48% {
+          transform: scale(1);
+          opacity: 0;
+        }
+        55% {
+          opacity: 0.8;
+        }
+        72% {
+          transform: scale(1.18);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1.18);
+          opacity: 0;
+        }
+      }
+
+      /* small sparkle accents around the Order Now label */
+      .order-spark {
+        position: absolute;
+        color: #f5c45b;
+        font-style: normal;
+        pointer-events: none;
+        opacity: 0;
+        z-index: 3;
+        text-shadow:
+          0 0 6px rgba(245, 196, 91, 0.7),
+          0 0 14px rgba(245, 196, 91, 0.35);
+      }
+      .spark-1 {
+        left: 12%;
+        bottom: 0;
+        animation: sparkOne 1.8s ease-out infinite;
+      }
+      .spark-2 {
+        left: 35%;
+        top: 0;
+        animation: sparkTwo 1.8s ease-out infinite;
+      }
+      .spark-3 {
+        right: 25%;
+        bottom: 0;
+        animation: sparkThree 1.8s ease-out infinite;
+      }
+      .spark-4 {
+        right: 8%;
+        top: 0;
+        animation: sparkFour 1.8s ease-out infinite;
+      }
+
+      @keyframes sparkOne {
+        0%,
+        55% {
+          opacity: 0;
+          transform: translate(0, 0) scale(0.4);
+        }
+        62% {
+          opacity: 1;
+        }
+        75% {
+          opacity: 0;
+          transform: translate(-14px, -25px) scale(1);
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      @keyframes sparkTwo {
+        0%,
+        55% {
+          opacity: 0;
+          transform: translate(0, 0) scale(0.4);
+        }
+        63% {
+          opacity: 1;
+        }
+        76% {
+          opacity: 0;
+          transform: translate(3px, -28px) scale(0.8);
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      @keyframes sparkThree {
+        0%,
+        55% {
+          opacity: 0;
+          transform: translate(0, 0) scale(0.4);
+        }
+        64% {
+          opacity: 1;
+        }
+        78% {
+          opacity: 0;
+          transform: translate(16px, -22px) scale(1);
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      @keyframes sparkFour {
+        0%,
+        55% {
+          opacity: 0;
+          transform: translate(0, 0) scale(0.4);
+        }
+        65% {
+          opacity: 1;
+        }
+        80% {
+          opacity: 0;
+          transform: translate(18px, -26px) scale(0.7);
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 920px) {
+        nav {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: #fff;
+          border-bottom: 1px solid var(--line);
+          box-shadow: var(--shadow-soft);
+          z-index: 60;
+          max-height: calc(100vh - 100%);
+          overflow-y: auto;
+        }
+        nav.nav-open {
+          display: block;
+        }
+        nav ul {
+          flex-direction: column;
+          gap: 0;
+          padding: 8px 0;
+        }
+        nav ul li {
+          width: 100%;
+        }
+        nav ul li a {
+          display: block;
+          padding: 15px 24px;
+          border-bottom: 1px solid var(--line);
+        }
+        nav ul li:last-child a {
+          border-bottom: none;
+        }
+        .header-cta .btn-ghost {
+          display: none;
+        }
+        .header-cta .btn-order {
+          padding: 10px 18px;
+          font-size: 13.5px;
+        }
+        .menu-toggle {
+          display: block;
+        }
+      }
+
+      /* ==========================================================================
+       HERO
+       ========================================================================== */
+      .hero {
+        position: relative;
+        padding: 88px 0 60px;
+        overflow: hidden;
+        background: url("images/hero-bg.png");
+        background-size: cover;
+      }
+      @media (max-width: 1450px) {
+        .hero {
+          background:
+            linear-gradient(
+              to right,
+              rgba(255, 255, 255, 0.74),
+              rgba(255, 255, 255, 0.65),
+              rgba(255, 255, 255, 0.15)
+            ),
+            url("images/hero-bg.png") !important;
+        }
+      }
+
+      .hero .blob-1 {
+        top: -140px;
+        right: -120px;
+        width: 520px;
+        height: 520px;
+        background: linear-gradient(
+          135deg,
+          #9a9fd1 0%,
+          #f3e9e29d 45%,
+          #3d4d5577 100%
+        );
+        border-radius: 44% 56% 62% 38% / 45% 40% 60% 55%;
+        opacity: 0.9;
+        animation: floatBlobOne 9s ease-in-out infinite;
+      }
+      @keyframes floatBlobOne {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(-22px, 22px) scale(1.05);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero .blob-1 {
+          animation: none;
+        }
+      }
+
+      .hero-grid {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 60px;
+        align-items: center;
+      }
+      .hero-copy h1 {
+        font-size: clamp(2.4rem, 4vw, 3.35rem);
+        margin-bottom: 20px;
+      }
+      .hero-copy h1 span {
+        color: var(--teal-dark);
+      }
+      .hero-copy p.lede {
+        font-size: 18px;
+        color: var(--gray);
+        max-width: 520px;
+        margin-bottom: 32px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 28px;
+      }
+
+      .hero-visual {
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+      .book-stage {
+        position: relative;
+        width: 100%;
+        max-width: 350px;
+      }
+      .book-cover-shadow {
+        position: absolute;
+        inset: 14px 30px -14px 30px;
+        background: linear-gradient(140deg, var(--teal), var(--navy-soft));
+        border-radius: 18px;
+        transform: rotate(4deg);
+        opacity: 0.35;
+      }
+      .book-cover {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+        transform: rotate(-2deg);
+        transition: transform 0.4s ease;
+      }
+      .book-cover:hover {
+        transform: rotate(0deg) translateY(-6px);
+      }
+      .book-cover img {
+        width: 100%;
+      }
+
+      /* signature element: die-cut "edition" ribbon tag tucked into the
+       corner of the cover — recurs across sections */
+      .edition-tag {
+        position: absolute;
+        top: 11px;
+        right: -37px;
+
+        background: linear-gradient(
+          135deg,
+          #8b1111 0%,
+          #650606 45%,
+          #450202 100%
+        );
+
+        color: #fff;
+
+        font-weight: 700;
+        font-size: 13.5px;
+        letter-spacing: 0.04em;
+
+        padding: 10px 22px 10px 17px;
+
+        border: 1px solid rgba(245, 196, 91, 0.8);
+        border-radius: 6px 0 0 6px;
+
+        box-shadow:
+          0 8px 20px rgba(70, 0, 0, 0.25),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+        z-index: 3;
+        isolation: isolate;
+
+        animation: editionGlow 4s ease-in-out infinite;
+      }
+
+      /* GOLD SHIMMER */
+      .edition-tag::before {
+        content: "";
+
+        position: absolute;
+        inset: 0;
+
+        border-radius: inherit;
+
+        background: linear-gradient(
+          110deg,
+          transparent 20%,
+          transparent 38%,
+          rgba(255, 232, 160, 0.15) 45%,
+          rgba(255, 242, 190, 0.65) 50%,
+          rgba(255, 232, 160, 0.15) 55%,
+          transparent 62%,
+          transparent 80%
+        );
+
+        background-size: 250% 100%;
+        background-position: 150% 0;
+
+        animation: editionShimmer 4s ease-in-out infinite;
+
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* TEXT ABOVE SHIMMER */
+      .edition-tag span {
+        position: relative;
+        z-index: 3;
+      }
+
+      /* PREMIUM GLOW */
+      .edition-tag {
+        animation:
+          editionGlow 4s ease-in-out infinite,
+          editionFloat 4s ease-in-out infinite;
+      }
+
+      @keyframes editionGlow {
+        0%,
+        55%,
+        100% {
+          box-shadow:
+            0 8px 20px rgba(70, 0, 0, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        62% {
+          box-shadow:
+            0 10px 26px rgba(70, 0, 0, 0.32),
+            0 0 18px rgba(245, 196, 91, 0.28),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        70% {
+          box-shadow:
+            0 8px 22px rgba(70, 0, 0, 0.28),
+            0 0 10px rgba(245, 196, 91, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+      }
+
+      /* VERY SUBTLE MOVEMENT */
+      @keyframes editionFloat {
+        0%,
+        55%,
+        100% {
+          transform: translateY(0);
+        }
+
+        62% {
+          transform: translateY(-2px);
+        }
+
+        70% {
+          transform: translateY(0);
+        }
+      }
+
+      /* SHIMMER PASSES THROUGH THE BADGE */
+      @keyframes editionShimmer {
+        0%,
+        45% {
+          background-position: 150% 0;
+          opacity: 0;
+        }
+
+        50% {
+          opacity: 1;
+        }
+
+        65% {
+          background-position: -50% 0;
+          opacity: 1;
+        }
+
+        70%,
+        100% {
+          background-position: -50% 0;
+          opacity: 0;
+        }
+      }
+
+      /* =================================
+   GOLD PARTICLES
+================================= */
+
+      .edition-spark {
+        position: absolute;
+
+        color: #f5c45b;
+        font-style: normal;
+        font-size: 10px;
+
+        pointer-events: none;
+        opacity: 0;
+
+        z-index: 5;
+
+        text-shadow:
+          0 0 5px rgba(245, 196, 91, 0.8),
+          0 0 12px rgba(245, 196, 91, 0.4);
+      }
+
+      /* Spark positions */
+
+      .edition-tag .spark-1 {
+        left: 12%;
+        bottom: 2px;
+
+        animation: editionSparkOne 4s ease-out infinite;
+      }
+
+      .edition-tag .spark-2 {
+        left: 42%;
+        top: 1px;
+
+        animation: editionSparkTwo 4s ease-out infinite;
+      }
+
+      .edition-tag .spark-3 {
+        right: 28%;
+        bottom: 0;
+
+        font-size: 8px;
+
+        animation: editionSparkThree 4s ease-out infinite;
+      }
+
+      .edition-tag .spark-4 {
+        right: 7%;
+        top: 4px;
+
+        animation: editionSparkFour 4s ease-out infinite;
+      }
+
+      /* PARTICLE 1 */
+
+      @keyframes editionSparkOne {
+        0%,
+        55% {
+          opacity: 0;
+          transform: translate(0, 0) scale(0.4);
+        }
+
+        62% {
+          opacity: 1;
+        }
+
+        75% {
+          opacity: 0;
+          transform: translate(-9px, -17px) scale(1);
+        }
+
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* PARTICLE 2 */
+
+      @keyframes editionSparkTwo {
+        0%,
+        55% {
+          opacity: 0;
+          transform: translate(0, 0) scale(0.4);
+        }
+
+        64% {
+          opacity: 1;
+        }
+
+        76% {
+          opacity: 0;
+          transform: translate(2px, -20px) scale(0.8);
+        }
+
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* PARTICLE 3 */
+
+      @keyframes editionSparkThree {
+        0%,
+        55% {
+          opacity: 0;
+          transform: translate(0, 0) scale(0.3);
+        }
+
+        65% {
+          opacity: 0.9;
+        }
+
+        78% {
+          opacity: 0;
+          transform: translate(8px, -14px) scale(0.8);
+        }
+
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* PARTICLE 4 */
+
+      @keyframes editionSparkFour {
+        0%,
+        55% {
+          opacity: 0;
+          transform: translate(0, 0) scale(0.4);
+        }
+
+        66% {
+          opacity: 1;
+        }
+
+        80% {
+          opacity: 0;
+          transform: translate(12px, -18px) scale(0.7);
+        }
+
+        100% {
+          opacity: 0;
+        }
+      }
+      .edition-tag::after {
+        content: "";
+
+        position: absolute;
+        right: -12px;
+        top: -1px;
+
+        border-style: solid;
+        border-width: 11px 0 11px 12px;
+        border-color: transparent transparent transparent #650606;
+
+        filter: drop-shadow(1px 0 0 #f5c45b);
+
+        z-index: 2;
+      }
+
+      @media (max-width: 920px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-visual {
+          order: -1;
+          margin-bottom: 10px;
+        }
+        .book-stage {
+          max-width: 260px;
+        }
+        .edition-tag {
+          right: -22px;
+          font-size: 12px;
+          padding: 8px 16px 8px 12px;
+        }
+      }
+
+      /* ==========================================================================
+       ABOUT THE BOOK
+       ========================================================================== */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 70px;
+        align-items: center;
+      }
+      .about-media {
+        position: relative;
+      }
+      .about-media img {
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-card);
+      }
+      .about-media::before {
+        content: "";
+        position: absolute;
+        inset: -18px -18px auto auto;
+        width: 150px;
+        height: 150px;
+        background: var(--mint-pale);
+        border-radius: 50%;
+        z-index: -1;
+      }
+      .about-copy {
+        color: var(--gray);
+        font-size: 16px;
+        margin: 10px 0;
+      }
+      .whats-new {
+        margin-top: 28px;
+        padding: 26px 28px;
+        background: var(--mint-pale);
+        border-radius: var(--radius-md);
+        border-left: 4px solid var(--teal);
+      }
+      .whats-new h4 {
+        font-size: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 14px;
+        color: var(--teal-dark);
+      }
+      .check-list li {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        font-size: 14px;
+        color: var(--ink);
+        margin-bottom: 12px;
+      }
+      .check-list li:last-child {
+        margin-bottom: 0;
+      }
+      .check-list .tick {
+        flex: none;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: var(--teal);
+        color: #fff;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+      }
+
+      /* ==========================================================================
+       MEET THE AUTHOR
+       ========================================================================== */
+      .author-section {
+        padding: 60px 0 40px;
+      }
+      .author-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.05fr;
+        gap: 70px;
+        align-items: center;
+      }
+      .author-meetup {
+        padding: 0px 30px 0px 0px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-card);
+        overflow: hidden;
+      }
+      .author-image {
+        position: relative;
+      }
+      .author-image img {
+        width: 100%;
+        object-fit: cover;
+      }
+      .author-card h2 {
+        font-size: clamp(2rem, 3vw, 2.4rem);
+        margin-bottom: 18px;
+      }
+      .author-card p {
+        color: var(--gray);
+        font-size: 16.5px;
+        margin-bottom: 22px;
+      }
+      .author-card .author-signature {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 15px;
+        color: var(--navy);
+        font-weight: 600;
+      }
+      .author-card .author-signature span {
+        color: var(--teal);
+      }
+
+      @media (max-width: 880px) {
+        section {
+          padding: 30px 0;
+        }
+        .about-grid,
+        .author-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .author-image img {
+          height: 320px;
+        }
+        .author-meetup {
+          padding: 0 !important;
+        }
+        .author-meetup .author-card {
+          padding: 0 24px 24px;
+        }
+      }
+
+      /* ==========================================================================
+       KEY FEATURES
+       ========================================================================== */
+      section#features {
+        background:
+          linear-gradient(
+            135deg,
+            rgb(255 255 255) 0%,
+            rgb(255 255 255 / 94%) 45%,
+            rgb(255 255 255 / 74%) 100%
+          ),
+          url(https://t3.ftcdn.net/jpg/05/36/46/34/360_F_536463425_CGutOm3pNR5XGLvO5ipygjErqxV6HQMs.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+      }
+      .feature-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 32px 28px;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        box-shadow: var(--shadow-card);
+      }
+      .feature-card:hover {
+        transform: translateY(-8px);
+        border: 1px solid var(--orange-dark);
+      }
+      .feature-card:hover .feature-icon {
+        background: var(--teal);
+        color: #fff;
+      }
+      .feature-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: var(--mint-pale);
+        color: var(--teal-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 18px;
+        transition:
+          background 0.3s ease,
+          color 0.3s ease;
+      }
+      .feature-card h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      .feature-card p {
+        color: var(--gray);
+        font-size: 14.5px;
+      }
+      @media (max-width: 880px) {
+        .features-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ==========================================================================
+       GALLERY + shared carousel dot pagination (gallery & testimonials)
+       ========================================================================== */
+      .gallery-carousel {
+        position: relative;
+      }
+      .gallery-track-wrapper {
+        position: relative;
+        padding: 0 58px;
+      }
+      .gallery-track {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding: 6px 2px 10px;
+        scrollbar-width: none;
+      }
+      .gallery-track::-webkit-scrollbar {
+        display: none;
+      }
+      .gallery-slide {
+        flex: 0 0 min(320px, 82vw);
+        scroll-snap-align: start;
+        position: relative;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        background: #fff;
+        box-shadow: var(--shadow-card);
+      }
+      .gallery-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        border: none;
+        background: var(--navy);
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 2;
+        box-shadow: 0 12px 24px -10px rgba(244, 121, 59, 0.55);
+        transition:
+          background 0.2s ease,
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .gallery-arrow:hover {
+        background: var(--orange-dark);
+        transform: translateY(-50%) scale(1.06);
+      }
+      .gallery-arrow--prev {
+        left: 0;
+      }
+      .gallery-arrow--next {
+        right: 0;
+      }
+      .gallery-arrow:disabled,
+      .testi-nav button:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        pointer-events: none;
+        transform: translateY(-50%);
+      }
+      .testi-nav button:disabled {
+        transform: none;
+      }
+      .gallery-slide img {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+      }
+      .gallery-slide:hover img {
+        transform: scale(1.06);
+      }
+      .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(8, 24, 36, 0.96) 0%,
+          rgba(8, 24, 36, 0.85) 30%,
+          rgba(8, 24, 36, 0.15) 50%,
+          rgba(8, 24, 36, 0) 70%
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 0 20px 20px;
+        color: #fff;
+      }
+      .gallery-overlay h3 {
+        color: #fff;
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+      .gallery-price {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--line);
+        margin-bottom: 12px;
+      }
+      .gallery-buy {
+        display: inline-flex;
+        align-self: flex-start;
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: var(--orange);
+        color: #fff;
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .gallery-buy:hover {
+        background: var(--orange-dark);
+      }
+      @media (max-width: 560px) {
+        .gallery-slide img {
+          height: 300px;
+        }
+      }
+
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 22px;
+      }
+      .carousel-dots button {
+        width: 8px;
+        height: 8px;
+        padding: 0;
+        border: none;
+        border-radius: 99px;
+        background: var(--line);
+        cursor: pointer;
+        transition:
+          width 0.25s ease,
+          background 0.25s ease;
+      }
+      .carousel-dots button:hover {
+        background: #c7d6d0;
+      }
+      .carousel-dots button.active {
+        width: 24px;
+        background: var(--teal);
+      }
+      .carousel-dots button.active:hover {
+        background: var(--teal-dark);
+      }
+
+      /* ==========================================================================
+       BUY ON AMAZON (6 formats)
+       ========================================================================== */
+      .amazon-card {
+        border: 2px solid var(--teal);
+        border-radius: var(--radius-lg);
+        background: #fff;
+        padding: 40px;
+        box-shadow: var(--shadow-card);
+      }
+      .amazon-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .amazon-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+      .amazon-item:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-card);
+      }
+      .amazon-thumb {
+        width: 56px;
+        height: 72px;
+        object-fit: cover;
+        border-radius: 6px;
+        flex: none;
+        box-shadow: 0 6px 14px -6px rgba(14, 42, 63, 0.35);
+      }
+      .amazon-info {
+        flex: 1;
+      }
+      .amazon-info h3 {
+        font-size: 15.5px;
+        margin-bottom: 2px;
+      }
+      .amazon-info span {
+        display: block;
+        font-size: 12.5px;
+        color: var(--gray);
+        margin-bottom: 10px;
+      }
+      .amazon-btn {
+        padding: 9px 16px;
+        font-size: 13px;
+        border-radius: 8px;
+        width: 100%;
+      }
+      @media (max-width: 880px) {
+        .amazon-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .amazon-grid {
+          grid-template-columns: 1fr;
+        }
+        .amazon-card {
+          padding: 24px 20px;
+        }
+      }
+      @media (max-width: 400px) {
+        .amazon-item {
+          flex-direction: column;
+          text-align: center;
+        }
+        .amazon-info {
+          width: 100%;
+        }
+      }
+
+      /* ==========================================================================
+       TESTIMONIALS
+       ========================================================================== */
+      section#reviews {
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.96) 0%,
+            rgba(255, 255, 255, 0.8) 45%,
+            rgba(255, 255, 255, 0.94) 100%
+          ),
+          url("https://media.springernature.com/w735h400/nature-cms/uploads/cms/pages/38752/top_item_image/SciRev_Website_Hero_Image_735x400-fd542bba13f51d1ae3c67a53076f6918.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .testi-wrap {
+        position: relative;
+      }
+      .testi-track {
+        display: flex;
+        gap: 24px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 10px;
+        scrollbar-width: none;
+      }
+      .testi-track::-webkit-scrollbar {
+        display: none;
+      }
+      .testi-card {
+        flex: 0 0 auto;
+        width: min(570px, 86vw);
+        scroll-snap-align: start;
+        background: #fff;
+        border-radius: var(--radius-md);
+        padding: 22px 30px;
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-card);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      .testi-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px -18px rgba(14, 42, 63, 0.3);
+      }
+      .quote-mark {
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .quote-mark > img {
+        width: 7%;
+      }
+      .stars {
+        color: var(--orange);
+        font-size: 25px;
+        letter-spacing: 2px;
+        margin-bottom: 14px;
+      }
+      .testi-card p.quote {
+        font-size: 15.5px;
+        color: var(--ink);
+        margin-bottom: 20px;
+      }
+      .testi-person {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .testi-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--orange-dark);
+        color: #fff;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+      }
+      .testi-person strong {
+        font-size: 14.5px;
+        display: block;
+      }
+      .testi-person span {
+        font-size: 12.5px;
+        color: var(--gray);
+      }
+      .testi-nav {
+        display: flex;
+        gap: 12px;
+        margin-top: 26px;
+      }
+      .testi-nav button {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--navy);
+        border: 1.5px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: var(--cream);
+        transition: all 0.2s ease;
+        box-shadow: 0 0 3px var(--ink);
+      }
+      .testi-nav button:hover {
+        background: var(--teal);
+        color: #fff;
+        border-color: var(--teal);
+      }
+
+      /* ==========================================================================
+       FINAL CTA
+       ========================================================================== */
+      .final-cta {
+        background: var(--navy);
+        border-radius: var(--radius-lg);
+        padding: 64px 56px;
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 40px;
+        align-items: center;
+      }
+      .final-cta::before {
+        content: "";
+        position: absolute;
+        width: 360px;
+        height: 360px;
+        background: var(--teal);
+        opacity: 0.18;
+        border-radius: 50%;
+        right: -120px;
+        top: -140px;
+      }
+      .final-cta h2 {
+        color: #fff;
+        font-size: clamp(1.7rem, 3vw, 2.3rem);
+        margin-bottom: 14px;
+      }
+      .final-cta p {
+        color: #c9d7de;
+        font-size: 15.5px;
+        max-width: 460px;
+      }
+      .final-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        position: relative;
+        z-index: 2;
+      }
+      .final-actions .btn {
+        width: 100%;
+      }
+      .buy-links {
+        display: flex;
+        gap: 10px;
+        margin-top: 6px;
+      }
+      .buy-links a {
+        flex: 1;
+        text-align: center;
+        padding: 11px 10px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #fff;
+        border: 1.5px solid rgba(255, 255, 255, 0.25);
+        border-radius: 10px;
+        transition: all 0.2s ease;
+      }
+      .buy-links a:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+      @media (max-width: 880px) {
+        .final-cta {
+          grid-template-columns: 1fr;
+          padding: 44px 30px;
+        }
+      }
+
+      /* ==========================================================================
+       NEWSLETTER BAND
+       ========================================================================== */
+      .newsletter {
+        background: var(--navy);
+        color: #fff;
+        padding: 34px 0;
+        border-bottom: 1px dashed var(--mint-pale);
+      }
+      .newsletter .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .newsletter h4 {
+        color: #fff;
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
+      .newsletter p {
+        font-size: 13.5px;
+        color: #d8ecf6;
+      }
+      .newsletter-form {
+        display: flex;
+        gap: 0;
+      }
+      .newsletter-form input {
+        padding: 13px 18px;
+        border: none;
+        outline: none;
+        border-radius: 8px 0 0 8px;
+        width: 260px;
+        font-size: 14px;
+      }
+      .newsletter-form button {
+        padding: 13px 24px;
+        border: 1px solid var(--orange);
+        background: var(--orange);
+        color: #fff;
+        border-radius: 0 8px 8px 0;
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      @media (max-width: 640px) {
+        .newsletter-form {
+          width: 100%;
+        }
+        .newsletter-form input {
+          width: 100%;
+        }
+      }
+
+      /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+      footer {
+        background:
+          linear-gradient(180deg, #0e2a3f 0%, #0e2a3fd5 45%, #305877d2 100%),
+          url("images/footer-bg.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #c9d7de;
+        padding: 64px 0 24px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr 1.1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+      .footer-grid h4 {
+        color: #fff;
+        font-size: 16px;
+        margin-bottom: 18px;
+      }
+      .footer-grid p {
+        font-size: 14px;
+        color: #a9bcc6;
+        margin-bottom: 18px;
+      }
+      .footer-contact li {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 14px;
+        margin-bottom: 14px;
+        color: #c9d7de;
+      }
+      .footer-grid ul li {
+        margin-bottom: 10px;
+      }
+      .footer-grid ul li a {
+        font-size: 14px;
+        color: #a9bcc6;
+        transition: color 0.2s ease;
+      }
+      .footer-grid ul li a:hover {
+        color: var(--mint);
+      }
+      .footer-bottom {
+        border-top: 1px solid rgba(219, 219, 219, 0.849);
+        padding-top: 22px;
+        text-align: center;
+        font-size: 13px;
+        color: #ffffff;
+      }
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .footer-brand > img {
+        width: 72px;
+        height: auto;
+        border-radius: 8px;
+        display: block;
+        margin-bottom: 12px;
+      }
+      .footer-brand > p {
+        color: #c9d7de;
+        font-size: 14px;
+        line-height: 1.45;
+        margin: 0;
+      }
+      .footer-brand > .icons {
+        display: flex;
+        margin-top: 10px;
+        gap: 8px;
+      }
+      .footer-brand > .icons > a {
+        height: 30px;
+        width: 30px;
+        background-color: var(--orange);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 90%;
+        color: var(--cream);
+        border-radius: var(--radius-lg);
+      }
+      @media (max-width: 880px) {
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 560px) {
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ==========================================================================
+       RESPONSIVE — mobile/tablet only (desktop layout above is untouched)
+       ========================================================================== */
+      @media (max-width: 640px) {
+        section {
+          padding: 44px 0;
+        }
+        .hero {
+          padding: 48px 0 36px;
+        }
+        .author-section {
+          padding: 40px 0 28px;
+        }
+        .section-head {
+          margin-bottom: 32px;
+        }
+        .container {
+          padding: 0 22px;
+        }
+        .menu-toggle {
+          font-size: 22px;
+        }
+        .header-cta .btn-order {
+          padding: 9px 16px;
+          font-size: 12.5px;
+        }
+
+        /* gallery arrows: smaller footprint + tighter gutter on mobile */
+        .gallery-track-wrapper {
+          padding: 0 38px;
+        }
+        .gallery-arrow {
+          width: 34px;
+          height: 34px;
+          font-size: 12.5px;
+          border-radius: 9px;
+        }
+
+        /* scale down decorative blob so it doesn't crowd the stacked
+         mobile hero layout */
+        .hero .blob-1 {
+          width: 300px;
+          height: 300px;
+          top: -90px;
+          right: -110px;
+        }
+        .yellow-circle {
+          top: 30px !important;
+          left: 30px !important;
+        }
+        .halftone-circle {
+          width: 220px !important;
+          height: 220px !important;
+        }
+
+        /* typography: keep the same family/weight/color, just bring sizes
+         down to mobile-appropriate scale */
+        .eyebrow {
+          font-size: 9px;
+          padding: 6px 13px;
+          margin-bottom: 14px;
+        }
+        .hero-copy h1 {
+          font-size: clamp(1.7rem, 7.5vw, 2.2rem);
+          margin-bottom: 14px;
+        }
+        .hero-copy p.lede {
+          font-size: 14.5px;
+          margin-bottom: 22px;
+        }
+        .hero-actions {
+          gap: 12px;
+        }
+        .section-head h2 {
+          font-size: clamp(1.5rem, 6vw, 1.85rem);
+          margin-bottom: 10px;
+        }
+        .section-head p {
+          font-size: 14px;
+        }
+        .about-copy {
+          font-size: 14.5px;
+        }
+        .whats-new {
+          padding: 18px 20px;
+        }
+        .whats-new h4 {
+          font-size: 13px;
+          margin-bottom: 10px;
+        }
+        .check-list li {
+          font-size: 12.5px;
+        }
+        .author-card h2 {
+          font-size: clamp(1.6rem, 6.5vw, 2rem);
+        }
+        .author-card p {
+          font-size: 14.5px;
+        }
+        .feature-card {
+          padding: 24px 22px;
+        }
+        .feature-card h3 {
+          font-size: 16.5px;
+        }
+        .feature-card p {
+          font-size: 13.5px;
+        }
+        .gallery-overlay h3 {
+          font-size: 16px;
+        }
+        .testi-card p.quote {
+          font-size: 14px;
+        }
+        .final-cta h2 {
+          font-size: clamp(1.4rem, 6vw, 1.8rem);
+        }
+        .final-cta p {
+          font-size: 14px;
+        }
+        .amazon-info h3 {
+          font-size: 14px;
+        }
+        .amazon-info span {
+          font-size: 12px;
+        }
+
+        /* buttons: smaller footprint on mobile while keeping the same
+         colors, radius, and labels */
+        .btn {
+          font-size: 14px;
+          padding: 13px 22px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .author-card .author-signature {
+          flex-direction: column !important;
+          align-items: baseline !important;
+          gap: 0 !important;
+        }
+        .edition-tag {
+          right: -14px;
+          font-size: 11px;
+          padding: 7px 12px 7px 10px;
+        }
+        .author-image img {
+          height: 240px;
+        }
+        .book-stage {
+          max-width: 220px;
+        }
+        .hero-copy h1 {
+          font-size: clamp(1.55rem, 8.5vw, 1.95rem);
+        }
+      }
+
+      @media (max-width: 420px) {
+        .btn {
+          white-space: normal;
+          text-align: center;
+          padding: 13px 20px;
+          font-size: 13.5px;
+        }
+        .hero-actions .btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============================================================
+       HEADER
+       ============================================================ -->
+    <header>
+      <div class="container nav-wrap">
+        <div class="brand">
+          <img
+            src="https://www.waynelabel.com/wp-content/uploads/2022/04/waynlable-logo-1-1-100x100.png"
+            alt=""
+          />
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#about">About the Book</a></li>
+            <li><a href="#features">What's New</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#buy">Get the Book</a></li>
+          </ul>
+        </nav>
+        <div class="header-cta">
+          <a class="btn btn-order" href="#">
+            <span>Order Now</span>
+            <i class="order-spark spark-1">✦</i>
+            <i class="order-spark spark-2">✦</i>
+            <i class="order-spark spark-3">•</i>
+            <i class="order-spark spark-4">✦</i>
+          </a>
+        </div>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+      </div>
+    </header>
+
+    <!-- ============================================================
+       HERO
+       ============================================================ -->
+    <section class="hero">
+      <div class="blob blob-1">
+        <div class="halftone-circle yellow-circle"></div>
+      </div>
+
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <span class="eyebrow">Now Available · 2nd Edition</span>
+          <h1>Accounting made simple, <span>now fully revised.</span></h1>
+          <p class="lede">
+            Dr. Wayne Label's bestselling guide returns with an updated 2nd
+            Edition — clearer explanations, new real‑world examples, and the
+            same fast, jargon‑free path to understanding your numbers.
+          </p>
+          <div class="hero-actions">
+            <a href="#buy" class="btn btn-primary">
+              Order the 2nd Edition <i class="fa-regular fa-circle-right"></i>
+            </a>
+            <a href="#about" class="btn btn-ghost">See What's New</a>
+          </div>
+        </div>
+        <div class="hero-visual reveal">
+          <div class="book-stage">
+            <div class="edition-tag">
+              <span>2nd Edition</span>
+
+              <i class="edition-spark spark-1">✦</i>
+              <i class="edition-spark spark-2">✦</i>
+              <i class="edition-spark spark-3">•</i>
+              <i class="edition-spark spark-4">✦</i>
+            </div>
+            <div class="book-cover-shadow"></div>
+            <div class="book-cover">
+              <img
+                src="images/hero-books.png"
+                alt="Accounting for Non-Accountants, 2nd Edition book cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       ABOUT THE BOOK
+       ============================================================ -->
+    <section id="about" class="section-alt">
+      <div class="container about-grid">
+        <div class="about-media reveal">
+          <img
+            src="https://www.southernliving.com/thmb/PnNtH0SZmDrtF-jN0aPtGHou23E=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1328567171-e0cc3a2143094e0fb46f7432115b202d.jpg"
+            alt="Reader working through the Accounting for Non-Accountants workbook"
+          />
+        </div>
+        <div class="reveal">
+          <span class="eyebrow">About the Book</span>
+          <h2>
+            Everything you need to finally speak the language of business.
+          </h2>
+          <p class="about-copy">
+            Whether you're running a business, launching one, or just want
+            control over your own finances, the 2nd Edition walks you through
+            financial statements, budgets, audits, and cash flow — without the
+            textbook jargon. This edition keeps everything readers loved, and
+            sharpens it further.
+          </p>
+          <div class="whats-new">
+            <h4>What's new in this edition</h4>
+            <ul class="check-list">
+              <li>
+                <span class="tick">✓</span> Updated examples reflecting current
+                tax and reporting standards
+              </li>
+              <li>
+                <span class="tick">✓</span> New chapter on reading cash flow
+                statements at a glance
+              </li>
+              <li>
+                <span class="tick">✓</span> Expanded end‑of‑chapter practice
+                problems and case studies
+              </li>
+              <li>
+                <span class="tick">✓</span> Companion online resources for every
+                chapter
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       MEET THE AUTHOR
+       ============================================================ -->
+    <section id="author" class="section-alt author-section">
+      <div class="container">
+        <div class="author-grid reveal author-meetup">
+          <div class="author-image">
+            <img src="images/author.jpg" alt="Author portrait" height="470px" />
+          </div>
+          <div class="author-card">
+            <span class="eyebrow">Meet the author</span>
+            <h2>Dr. Wayne Label — your guide through business finance</h2>
+            <p>
+              Dr. Wayne Label has spent more than two decades teaching business
+              owners and students how to decode financial statements, master
+              cash flow, and make smarter decisions without the accounting
+              jargon. His second edition brings clarity, practical examples, and
+              real-world strategies to anyone who wants financial confidence.
+            </p>
+            <p class="author-signature">
+              <span>Dr. Wayne Label</span> · Author, educator, consultant
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       KEY FEATURES
+       ============================================================ -->
+    <section id="features">
+      <div class="container">
+        <div
+          class="section-head reveal"
+          style="text-align: center; max-width: 640px; margin: 0 auto 40px"
+        >
+          <h2>Why readers keep coming back to this book</h2>
+          <p>
+            Built for people who never took an accounting class — and don't have
+            time to start now.
+          </p>
+          <span class="underline-swash"></span>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <i class="fa-solid fa-chart-bar"></i>
+            </div>
+            <h3>Read financial statements with confidence</h3>
+            <p>
+              Understand balance sheets, income statements, and cash flow
+              reports without a finance degree.
+            </p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <i class="fa-solid fa-sack-dollar"></i>
+            </div>
+            <h3>Manage budgets like a pro</h3>
+            <p>
+              Practical frameworks for building, tracking, and adjusting budgets
+              for a business of any size.
+            </p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3>Spot audit red flags early</h3>
+            <p>
+              Learn what auditors actually look for, and how to keep your books
+              audit‑ready year‑round.
+            </p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <i class="fa-solid fa-chart-simple"></i>
+            </div>
+            <h3>Use ratios to see the real story</h3>
+            <p>
+              Turn raw numbers into insight with the accounting ratios that
+              matter most for decision‑making.
+            </p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <i class="fa-regular fa-newspaper"></i>
+            </div>
+            <h3>Control cash flow, not just profit</h3>
+            <p>
+              New in this edition: a dedicated framework for keeping cash flow
+              healthy through every season.
+            </p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h3>Learn at your own pace</h3>
+            <p>
+              Clear chapter structure, real‑world case studies, and companion
+              resources for deeper study.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       GALLERY
+       ============================================================ -->
+    <section id="gallery" class="section-alt">
+      <div class="container">
+        <div
+          class="section-head reveal"
+          style="text-align: center; max-width: 640px; margin: 0 auto 40px"
+        >
+          <h2>Inside the 2nd Edition</h2>
+          <p>
+            A closer look at the cover, sample pages, and the edition in
+            readers' hands.
+          </p>
+          <span class="underline-swash"></span>
+        </div>
+        <div class="gallery-carousel reveal">
+          <div class="gallery-track-wrapper">
+            <button
+              class="gallery-arrow gallery-arrow--prev"
+              id="galleryPrev"
+              type="button"
+              aria-label="Previous slide"
+            >
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div class="gallery-track" id="galleryTrack">
+              <div class="gallery-slide">
+                <img
+                  src="https://www.waynelabel.com/wp-content/uploads/2021/08/Accounting1_3D-367x492.jpg"
+                  alt="2nd Edition cover"
+                />
+                <div class="gallery-overlay">
+                  <h3>2nd Edition Cover</h3>
+                  <p class="gallery-price">Starting at $21.00</p>
+                  <a href="#buy" class="gallery-buy">Buy Now</a>
+                </div>
+              </div>
+              <div class="gallery-slide">
+                <img
+                  src="https://www.waynelabel.com/wp-content/uploads/2016/02/1385530088study_guide-367x492-1-367x492-min-367x492.png"
+                  alt="Sample pages"
+                />
+                <div class="gallery-overlay">
+                  <h3>Sample Inside Pages</h3>
+                  <p class="gallery-price">From $18.00</p>
+                  <a href="#buy" class="gallery-buy">Buy Now</a>
+                </div>
+              </div>
+              <div class="gallery-slide">
+                <img
+                  src="https://www.waynelabel.com/wp-content/uploads/2016/09/Green-book-with-table-367x492-min-367x492.png"
+                  alt="Study guide edition"
+                />
+                <div class="gallery-overlay">
+                  <h3>Study Guide Edition</h3>
+                  <p class="gallery-price">From $24.00</p>
+                  <a href="#buy" class="gallery-buy">Buy Now</a>
+                </div>
+              </div>
+              <div class="gallery-slide">
+                <img
+                  src="https://www.waynelabel.com/wp-content/uploads/2016/02/13855301421-_mint-367x492-1-367x492-min-367x492.png"
+                  alt="Business owner edition"
+                />
+                <div class="gallery-overlay">
+                  <h3>Business Owner Edition</h3>
+                  <p class="gallery-price">From $26.00</p>
+                  <a href="#buy" class="gallery-buy">Buy Now</a>
+                </div>
+              </div>
+              <div class="gallery-slide">
+                <img
+                  src="https://www.waynelabel.com/wp-content/uploads/2016/02/libro-espanol-con-tablita-367x484.jpg"
+                  alt="Spanish edition"
+                />
+                <div class="gallery-overlay">
+                  <h3>Spanish Edition</h3>
+                  <p class="gallery-price">From $22.00</p>
+                  <a href="#buy" class="gallery-buy">Buy Now</a>
+                </div>
+              </div>
+            </div>
+            <button
+              class="gallery-arrow gallery-arrow--next"
+              id="galleryNext"
+              type="button"
+              aria-label="Next slide"
+            >
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          <div
+            class="carousel-dots"
+            id="galleryDots"
+            role="tablist"
+            aria-label="Gallery slides"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       BUY ON AMAZON (6 FORMATS)
+       ============================================================ -->
+    <section id="buy-amazon" class="section-alt">
+      <div class="container">
+        <div
+          class="section-head reveal"
+          style="text-align: center; max-width: 640px; margin: 0 auto 40px"
+        >
+          <h2>6 Ways to Buy on Amazon</h2>
+          <p>Choose your preferred format and language.</p>
+          <span class="underline-swash"></span>
+        </div>
+
+        <div class="amazon-card reveal">
+          <div class="amazon-grid">
+            <div class="amazon-item">
+              <img
+                src="https://www.waynelabel.com/wp-content/uploads/2016/02/contabilidad-financiera-349x444.png"
+                alt="Accounting for Non-Accountants cover"
+                class="amazon-thumb"
+              />
+              <div class="amazon-info">
+                <h3>English Printed</h3>
+                <span>Paperback</span>
+                <a href="#" class="btn btn-teal amazon-btn">Buy on Amazon</a>
+              </div>
+            </div>
+
+            <div class="amazon-item">
+              <img
+                src="https://www.waynelabel.com/wp-content/uploads/2016/02/contabilidad-financiera-349x444.png"
+                alt="Accounting for Non-Accountants cover"
+                class="amazon-thumb"
+              />
+              <div class="amazon-info">
+                <h3>English Digital</h3>
+                <span>Kindle Edition</span>
+                <a href="#" class="btn btn-teal amazon-btn">Buy on Amazon</a>
+              </div>
+            </div>
+
+            <div class="amazon-item">
+              <img
+                src="https://www.waynelabel.com/wp-content/uploads/2016/02/contabilidad-financiera-349x444.png"
+                alt="Accounting for Non-Accountants cover"
+                class="amazon-thumb"
+              />
+              <div class="amazon-info">
+                <h3>English Audio</h3>
+                <span>Audiobook</span>
+                <a href="#" class="btn btn-teal amazon-btn">Buy on Amazon</a>
+              </div>
+            </div>
+
+            <div class="amazon-item">
+              <img
+                src="https://www.waynelabel.com/wp-content/uploads/2016/02/contabilidad-financiera-349x444.png"
+                alt="Accounting for Non-Accountants cover"
+                class="amazon-thumb"
+              />
+              <div class="amazon-info">
+                <h3>Spanish Printed</h3>
+                <span>Paperback</span>
+                <a href="#" class="btn btn-teal amazon-btn">Buy on Amazon</a>
+              </div>
+            </div>
+
+            <div class="amazon-item">
+              <img
+                src="https://www.waynelabel.com/wp-content/uploads/2016/02/contabilidad-financiera-349x444.png"
+                alt="Accounting for Non-Accountants cover"
+                class="amazon-thumb"
+              />
+              <div class="amazon-info">
+                <h3>Spanish Digital</h3>
+                <span>Kindle Edition</span>
+                <a href="#" class="btn btn-teal amazon-btn">Buy on Amazon</a>
+              </div>
+            </div>
+
+            <div class="amazon-item">
+              <img
+                src="https://www.waynelabel.com/wp-content/uploads/2016/02/contabilidad-financiera-349x444.png"
+                alt="Accounting for Non-Accountants cover"
+                class="amazon-thumb"
+              />
+              <div class="amazon-info">
+                <h3>Spanish Audio</h3>
+                <span>Audiobook</span>
+                <a href="#" class="btn btn-teal amazon-btn">Buy on Amazon</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       TESTIMONIALS
+       ============================================================ -->
+    <section id="reviews">
+      <div class="container">
+        <div
+          class="section-head reveal"
+          style="text-align: center; max-width: 640px; margin: 0 auto 40px"
+        >
+          <h2>What readers are saying</h2>
+          <p>
+            International acclaim from business owners, students, and
+            professionals.
+          </p>
+          <span class="underline-swash"></span>
+        </div>
+        <div class="testi-wrap reveal">
+          <div class="testi-track" id="testiTrack">
+            <div class="testi-card">
+              <div class="quote-mark">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/63/63848.png"
+                  alt=""
+                />
+              </div>
+              <div class="stars">★★★★★</div>
+              <p class="quote">
+                I run a service business and never understood my own financial
+                statements until this book. The updated edition made budgeting
+                finally click for me.
+              </p>
+              <div class="testi-person">
+                <div class="testi-avatar">R</div>
+                <div>
+                  <strong>Ryosuke T.</strong><span>Small business owner</span>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card">
+              <div class="quote-mark">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/63/63848.png"
+                  alt=""
+                />
+              </div>
+              <div class="stars">★★★★★</div>
+              <p class="quote">
+                The new cash flow chapter alone is worth the upgrade. Clear,
+                practical, and genuinely easy to follow for someone with zero
+                accounting background.
+              </p>
+              <div class="testi-person">
+                <div class="testi-avatar">M</div>
+                <div><strong>Maria S.</strong><span>Startup founder</span></div>
+              </div>
+            </div>
+            <div class="testi-card">
+              <div class="quote-mark">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/63/63848.png"
+                  alt=""
+                />
+              </div>
+              <div class="stars">★★★★★</div>
+              <p class="quote">
+                I use this as a refresher every quarter. The 2nd Edition's
+                practice problems make it easy to apply the concepts to my own
+                books.
+              </p>
+              <div class="testi-person">
+                <div class="testi-avatar">D</div>
+                <div>
+                  <strong>David K.</strong><span>Freelance consultant</span>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card">
+              <div class="quote-mark">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/63/63848.png"
+                  alt=""
+                />
+              </div>
+              <div class="stars">★★★★★</div>
+              <p class="quote">
+                Recommended this to my whole team. It turned "accounting jargon"
+                into something we actually talk about in meetings now.
+              </p>
+              <div class="testi-person">
+                <div class="testi-avatar">A</div>
+                <div>
+                  <strong>Aisha N.</strong><span>Operations manager</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testi-nav">
+            <button id="testiPrev" aria-label="Previous review">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button id="testiNext" aria-label="Next review">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          <div
+            class="carousel-dots"
+            id="testiDots"
+            role="tablist"
+            aria-label="Reviews"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       FINAL CTA
+       ============================================================ -->
+    <section id="buy" class="section-alt">
+      <div class="container">
+        <div class="final-cta reveal">
+          <div>
+            <span class="eyebrow">Get Your Copy</span>
+            <h2>Own the 2nd Edition today.</h2>
+            <p>
+              Available in print, digital, and audiobook formats. Order directly
+              or find it at your preferred retailer.
+            </p>
+          </div>
+          <div class="final-actions">
+            <a href="#" class="btn btn-primary">Order Now — $21.00</a>
+            <a href="#" class="btn btn-teal">Read a Free Sample Chapter</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       NEWSLETTER
+       ============================================================ -->
+    <div class="newsletter">
+      <div class="container">
+        <div>
+          <h4>Subscribe to Dr. Label's weekly newsletter</h4>
+          <p>
+            Accounting tips, book updates, and early access — free, every week.
+          </p>
+        </div>
+        <form
+          class="newsletter-form"
+          onsubmit="
+            event.preventDefault();
+            this.querySelector('button').textContent = 'Signed up ✓';
+          "
+        >
+          <input type="email" placeholder="Your email address" required />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img
+              src="https://www.waynelabel.com/wp-content/uploads/2022/04/waynlable-logo-1-1-100x100.png"
+              alt="Wayne Label logo"
+            />
+            <p>
+              Practical accounting guidance for business owners — clear,
+              concise, and reader-friendly.
+            </p>
+            <div class="icons">
+              <a href=""><i class="fa-brands fa-facebook-f"></i></a>
+              <a href=""><i class="fa-brands fa-twitter"></i></a>
+              <a href=""><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href=""><i class="fa-brands fa-youtube"></i></a>
+            </div>
+          </div>
+          <div>
+            <h4>Our Info</h4>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#about">About the Book</a></li>
+              <li><a href="#gallery">Gallery</a></li>
+              <li><a href="#reviews">Reviews</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#">The Authors</a></li>
+              <li><a href="#">Resources</a></li>
+              <li><a href="#buy">Get the Book</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Contact Us</h4>
+            <ul class="footer-contact">
+              <li><i class="fa-solid fa-phone-volume"></i> 760‑666‑2900</li>
+              <li>
+                <i class="fa-regular fa-envelope"></i> wayne@waynelabel.com
+              </li>
+              <li>
+                <i class="fa-solid fa-location-crosshairs"></i> Solana Beach, CA
+                92075
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          Copyright © 2026 WayneLabel. All Rights Reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      /* ============================================================
+       SCROLL-REVEAL: fades/slides sections in as they enter the
+       viewport (targets any element with the .reveal class)
+       ============================================================ */
+      (function initScrollReveal() {
+        const revealEls = document.querySelectorAll(".reveal");
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 },
+        );
+        revealEls.forEach((el) => io.observe(el));
+      })();
+
+      /* ============================================================
+       SHARED CAROUSEL DOT PAGINATION
+       Builds dot pagination for a scroll-snap track. Dots map 1:1 to
+       the real, reachable stopping positions along the track — each
+       child's own scroll position, clamped to the end and de-duplicated
+       once several children land on the same final spot. This keeps
+       the dot count honest: it matches however many distinct views
+       scrolling actually produces, not a guessed "viewport width" page
+       size. Also keeps the active dot in sync whether the user clicks
+       an arrow, clicks a dot, or drags/swipes the track, and
+       enables/disables a paired prev/next button at each scroll edge.
+       ============================================================ */
+      function initCarouselDots(track, dotsWrap, { prevBtn, nextBtn } = {}) {
+        if (!track || !dotsWrap) return null;
+
+        const getMaxScroll = () =>
+          Math.max(0, track.scrollWidth - track.clientWidth);
+
+        const getStopPositions = () => {
+          const maxScroll = getMaxScroll();
+          const children = Array.from(track.children);
+          if (!children.length) return [0];
+          const raw = children.map((child) =>
+            Math.min(
+              Math.max(child.offsetLeft - track.offsetLeft, 0),
+              maxScroll,
+            ),
+          );
+          const deduped = [];
+          raw.forEach((pos) => {
+            const last = deduped[deduped.length - 1];
+            if (last === undefined || Math.abs(pos - last) > 1) {
+              deduped.push(pos);
+            }
+          });
+          return deduped.length ? deduped : [0];
+        };
+
+        let stops = getStopPositions();
+
+        const getCurrentPage = () => {
+          let closest = 0;
+          let minDist = Infinity;
+          stops.forEach((pos, i) => {
+            const dist = Math.abs(pos - track.scrollLeft);
+            if (dist < minDist) {
+              minDist = dist;
+              closest = i;
+            }
+          });
+          return closest;
+        };
+
+        const setActive = (idx) => {
+          Array.from(dotsWrap.children).forEach((d, i) =>
+            d.classList.toggle("active", i === idx),
+          );
+        };
+
+        const updateArrows = () => {
+          const maxScroll = getMaxScroll();
+          if (prevBtn) prevBtn.disabled = track.scrollLeft <= 2;
+          if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll - 2;
+        };
+
+        const goToPage = (idx) => {
+          const clamped = Math.min(Math.max(idx, 0), stops.length - 1);
+          track.scrollTo({ left: stops[clamped], behavior: "smooth" });
+        };
+
+        const buildDots = () => {
+          stops = getStopPositions();
+          const current = getCurrentPage();
+          dotsWrap.innerHTML = "";
+          stops.forEach((_, i) => {
+            const dot = document.createElement("button");
+            dot.type = "button";
+            dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+            if (i === current) dot.classList.add("active");
+            dot.addEventListener("click", () => goToPage(i));
+            dotsWrap.appendChild(dot);
+          });
+        };
+
+        buildDots();
+        updateArrows();
+
+        let scrollTimeout;
+        track.addEventListener("scroll", () => {
+          updateArrows();
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => setActive(getCurrentPage()), 120);
+        });
+
+        let resizeTimeout;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            buildDots();
+            updateArrows();
+          }, 150);
+        });
+
+        return { setActive, updateArrows, goToPage, getCurrentPage };
+      }
+
+      /* ============================================================
+       GALLERY CAROUSEL: auto-scroll + arrow controls + dot pagination
+       ============================================================ */
+      (function initGalleryCarousel() {
+        const galleryTrack = document.getElementById("galleryTrack");
+        if (!galleryTrack) return;
+
+        const gallerySlides = Array.from(galleryTrack.children);
+        const galleryPrevBtn = document.getElementById("galleryPrev");
+        const galleryNextBtn = document.getElementById("galleryNext");
+        let galleryIndex = 0;
+        let autoScrollPaused = false;
+
+        const scrollToSlide = (idx) => {
+          const slide = gallerySlides[idx];
+          if (!slide) return;
+          const left = slide.offsetLeft - galleryTrack.offsetLeft;
+          galleryTrack.scrollTo({ left, behavior: "smooth" });
+        };
+
+        const intervalId = setInterval(() => {
+          if (!gallerySlides.length || autoScrollPaused) return;
+          galleryIndex = (galleryIndex + 1) % gallerySlides.length;
+          scrollToSlide(galleryIndex);
+        }, 4000);
+
+        const moveGallery = (direction) => {
+          if (!gallerySlides.length) return;
+          autoScrollPaused = true;
+          galleryIndex =
+            (galleryIndex + direction + gallerySlides.length) %
+            gallerySlides.length;
+          scrollToSlide(galleryIndex);
+          setTimeout(() => (autoScrollPaused = false), 1200);
+        };
+
+        galleryPrevBtn?.addEventListener("click", () => moveGallery(-1));
+        galleryNextBtn?.addEventListener("click", () => moveGallery(1));
+
+        initCarouselDots(galleryTrack, document.getElementById("galleryDots"), {
+          prevBtn: galleryPrevBtn,
+          nextBtn: galleryNextBtn,
+        });
+
+        // Pause auto-scroll while the user interacts with the track
+        const pause = () => (autoScrollPaused = true);
+        const resume = () => (autoScrollPaused = false);
+        galleryTrack.addEventListener("pointerdown", pause);
+        galleryTrack.addEventListener("pointerup", resume);
+        galleryTrack.addEventListener("pointerleave", resume);
+        galleryTrack.addEventListener("touchstart", pause, { passive: true });
+        galleryTrack.addEventListener("touchend", resume);
+
+        window.addEventListener("beforeunload", () =>
+          clearInterval(intervalId),
+        );
+      })();
+
+      /* ============================================================
+       TESTIMONIALS CAROUSEL: arrow controls + dot pagination
+       ============================================================ */
+      (function initTestimonialCarousel() {
+        const testiTrack = document.getElementById("testiTrack");
+        const testiPrevBtn = document.getElementById("testiPrev");
+        const testiNextBtn = document.getElementById("testiNext");
+        if (!testiTrack || !testiPrevBtn || !testiNextBtn) return;
+
+        const cardWidth = () =>
+          testiTrack.querySelector(".testi-card").offsetWidth + 24;
+
+        testiNextBtn.addEventListener("click", () =>
+          testiTrack.scrollBy({ left: cardWidth(), behavior: "smooth" }),
+        );
+        testiPrevBtn.addEventListener("click", () =>
+          testiTrack.scrollBy({ left: -cardWidth(), behavior: "smooth" }),
+        );
+
+        initCarouselDots(testiTrack, document.getElementById("testiDots"), {
+          prevBtn: testiPrevBtn,
+          nextBtn: testiNextBtn,
+        });
+      })();
+
+      /* ============================================================
+       MOBILE NAV: toggles the header nav dropdown on small screens
+       ============================================================ */
+      (function initMobileNav() {
+        const menuToggle = document.getElementById("menuToggle");
+        const mainNav = document.querySelector("header nav");
+        if (!menuToggle || !mainNav) return;
+
+        menuToggle.addEventListener("click", () => {
+          const isOpen = mainNav.classList.toggle("nav-open");
+          menuToggle.setAttribute("aria-expanded", String(isOpen));
+          menuToggle.textContent = isOpen ? "✕" : "☰";
+        });
+
+        mainNav.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            mainNav.classList.remove("nav-open");
+            menuToggle.setAttribute("aria-expanded", "false");
+            menuToggle.textContent = "☰";
+          });
+        });
+      })();
+
+      /* ============================================================
+       DECORATIVE HALFTONE DOT CIRCLE (rotating SVG behind hero blob)
+       Draws concentric rings of dots that shrink/fade toward the edge,
+       then rotates the whole SVG continuously.
+       ============================================================ */
+      document.addEventListener("DOMContentLoaded", function () {
+        const containers = document.querySelectorAll(".halftone-circle");
+
+        containers.forEach((container) => {
+          const size = 320;
+          const center = size / 2;
+          const maxRadius = 145;
+          const svgNS = "http://www.w3.org/2000/svg";
+
+          const svg = document.createElementNS(svgNS, "svg");
+          svg.setAttribute("viewBox", `0 0 ${size} ${size}`);
+
+          for (let radius = 4; radius <= maxRadius; radius += 6) {
+            const dots = Math.max(12, Math.floor((2 * Math.PI * radius) / 8));
+            const progress = radius / maxRadius;
+
+            // Larger, more opaque dots toward the center
+            const dotRadius = 2.6 - progress * 1.45;
+            const opacity = 0.72 - progress * 0.38;
+
+            for (let i = 0; i < dots; i++) {
+              const angle = (Math.PI * 2 * i) / dots;
+              const x = center + radius * Math.cos(angle);
+              const y = center + radius * Math.sin(angle);
+
+              const dot = document.createElementNS(svgNS, "circle");
+              dot.setAttribute("cx", x);
+              dot.setAttribute("cy", y);
+              dot.setAttribute("r", Math.max(0.55, dotRadius));
+              dot.setAttribute("fill", "#2F8B70");
+              dot.setAttribute("opacity", opacity);
+              svg.appendChild(dot);
+            }
+          }
+
+          container.appendChild(svg);
+
+          // Continuous rotation
+          let rotation = 0;
+          function animateCircle() {
+            rotation += 0.45;
+            svg.style.transform = `rotate(${rotation}deg)`;
+            requestAnimationFrame(animateCircle);
+          }
+          animateCircle();
+        });
+      });
+    </script>
+  </body>
+</html>
